@@ -1,0 +1,12 @@
+[
+  {"name": "bug",              "color": "d73a4a", "description": "Something isn't working"},
+  {"name": "enhancement",      "color": "a2eeef", "description": "New feature or request"},
+  {"name": "documentation",    "color": "0075ca", "description": "Documentation improvements"},
+  {"name": "good first issue", "color": "7057ff", "description": "Good for newcomers"},
+  {"name": "help wanted",      "color": "008672", "description": "Extra attention needed"},
+  {"name": "question",         "color": "d876e3", "description": "Further information requested"},
+  {"name": "r7rs",             "color": "fbca04", "description": "R7RS specification compliance"},
+  {"name": "srfi",             "color": "e4e669", "description": "SRFI library implementation"},
+  {"name": "ci",               "color": "cccccc", "description": "CI/CD changes"},
+  {"name": "breaking",         "color": "b60205", "description": "Breaking change"}
+]

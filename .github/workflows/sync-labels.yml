@@ -1,0 +1,34 @@
+name: Sync Labels
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync labels across org repos
+        env:
+          GH_TOKEN: ${{ secrets.ORG_TOKEN }}
+        run: |
+          REPOS=$(gh repo list kaappi --json name --jq '.[].name' --limit 50)
+          LABELS=$(cat labels.json)
+
+          for repo in ${REPOS}; do
+            echo "--- kaappi/${repo} ---"
+            echo "${LABELS}" | jq -c '.[]' | while read -r label; do
+              name=$(echo "${label}" | jq -r '.name')
+              color=$(echo "${label}" | jq -r '.color')
+              desc=$(echo "${label}" | jq -r '.description')
+              gh label create "${name}" \
+                --color "${color}" \
+                --description "${desc}" \
+                --repo "kaappi/${repo}" \
+                --force 2>/dev/null \
+                && echo "  ok  ${name}" \
+                || echo "  skip ${name}"
+            done
+          done

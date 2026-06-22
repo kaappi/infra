@@ -1,0 +1,15 @@
+[
+  {"name": "kaappi",          "category": "core",      "expect": ["LICENSE", "README.md", "CHANGELOG.md", ".github/workflows"]},
+  {"name": "kaappi-cli",      "category": "ecosystem", "expect": ["LICENSE", "README.md", "kaappi.pkg", ".github/workflows"]},
+  {"name": "kaappi-examples", "category": "ecosystem", "expect": ["LICENSE", "README.md", ".github/workflows"]},
+  {"name": "kaappi-http",     "category": "ecosystem", "expect": ["LICENSE", "README.md", "kaappi.pkg", ".github/workflows"]},
+  {"name": "kaappi-json",     "category": "ecosystem", "expect": ["LICENSE", "README.md", "kaappi.pkg", ".github/workflows"]},
+  {"name": "kaappi-net",      "category": "ecosystem", "expect": ["LICENSE", "README.md", "kaappi.pkg", ".github/workflows"]},
+  {"name": "kaappi-pg",       "category": "ecosystem", "expect": ["LICENSE", "README.md", "kaappi.pkg", ".github/workflows"]},
+  {"name": "kaappi-redis",    "category": "ecosystem", "expect": ["LICENSE", "README.md", "kaappi.pkg", ".github/workflows"]},
+  {"name": "kaappi-web",      "category": "ecosystem", "expect": ["LICENSE", "README.md", "kaappi.pkg", ".github/workflows"]},
+  {"name": "ci-images",       "category": "infra",     "expect": ["LICENSE", "README.md", ".github/workflows"]},
+  {"name": "kaappi.github.io","category": "docs",      "expect": ["LICENSE", "README.md", ".github/workflows"]},
+  {"name": ".github",         "category": "meta",      "expect": ["profile/README.md"]},
+  {"name": "infra",           "category": "meta",      "expect": ["LICENSE", "README.md"]}
+]
