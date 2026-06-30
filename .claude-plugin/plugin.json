@@ -1,0 +1,8 @@
+{
+  "name": "kaappi-dev",
+  "description": "Development harness for the Kaappi ecosystem — shared skills, hooks, and agents for all kaappi-* repos",
+  "version": "1.0.0",
+  "author": {
+    "name": "Kaappi"
+  }
+}

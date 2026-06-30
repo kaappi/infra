@@ -1,0 +1,13 @@
+{
+  "name": "kaappi-marketplace",
+  "owner": {
+    "name": "Kaappi"
+  },
+  "plugins": [
+    {
+      "name": "kaappi-dev",
+      "source": ".",
+      "description": "Shared dev harness for Kaappi ecosystem repos"
+    }
+  ]
+}
