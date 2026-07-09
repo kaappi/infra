@@ -1,12 +1,21 @@
 [
   {"name": "bug",              "color": "d73a4a", "description": "Something isn't working"},
   {"name": "enhancement",      "color": "a2eeef", "description": "New feature or request"},
-  {"name": "documentation",    "color": "0075ca", "description": "Documentation improvements"},
+  {"name": "documentation",    "color": "0075ca", "description": "Improvements or additions to documentation"},
+  {"name": "duplicate",        "color": "cfd3d7", "description": "This issue or pull request already exists"},
+  {"name": "invalid",          "color": "e4e669", "description": "This doesn't seem right"},
+  {"name": "question",         "color": "d876e3", "description": "Further information is requested"},
+  {"name": "wontfix",          "color": "ffffff", "description": "This will not be worked on"},
   {"name": "good first issue", "color": "7057ff", "description": "Good for newcomers"},
-  {"name": "help wanted",      "color": "008672", "description": "Extra attention needed"},
-  {"name": "question",         "color": "d876e3", "description": "Further information requested"},
-  {"name": "r7rs",             "color": "fbca04", "description": "R7RS specification compliance"},
-  {"name": "srfi",             "color": "e4e669", "description": "SRFI library implementation"},
-  {"name": "ci",               "color": "cccccc", "description": "CI/CD changes"},
-  {"name": "breaking",         "color": "b60205", "description": "Breaking change"}
+  {"name": "help wanted",      "color": "008672", "description": "Extra attention is needed"},
+  {"name": "refactor",         "color": "1d76db", "description": "Code health / restructuring, no behavior change intended"},
+  {"name": "audit",            "color": "fbca04", "description": "Found during systematic audit"},
+  {"name": "r7rs-conformance", "color": "b60205", "description": "R7RS-small spec conformance issue"},
+  {"name": "srfi",             "color": "d93f0b", "description": "SRFI implementation issue"},
+  {"name": "ci",               "color": "cccccc", "description": "CI/CD, build, and infrastructure"},
+  {"name": "breaking",         "color": "b60205", "description": "Breaking change"},
+  {"name": "priority: critical", "color": "b60205", "description": "Must fix ASAP — blocks users or breaks core functionality"},
+  {"name": "priority: high",     "color": "d93f0b", "description": "Important — fix before next release"},
+  {"name": "priority: medium",   "color": "fbca04", "description": "Should fix — plan for upcoming work"},
+  {"name": "priority: low",      "color": "0e8a16", "description": "Nice to have — fix when convenient"}
 ]
