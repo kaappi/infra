@@ -1,28 +1,37 @@
 # kaappi/infra
 
 Infrastructure and tooling for the [kaappi](https://github.com/kaappi) GitHub
-organization. Scripts are written in Kaappi Scheme.
+organization. Repo-maintenance scripts are written in Kaappi Scheme;
+GitHub API automation (access control, triage, review) is written in bash
+against the `gh` CLI.
 
 ## Structure
 
 ```
-scripts/           Kaappi Scheme scripts for org maintenance
-  add-license.scm    Generate MIT LICENSE files across repos
-  audit-repos.scm    Check repos for required files (LICENSE, README, CI, etc.)
+scripts/           Org maintenance and automation scripts
+  add-license.scm             Generate MIT LICENSE files across repos (Scheme)
+  audit-repos.scm              Check repos for required files (Scheme)
+  grant-repo-access.sh         Set collaborators-only issue/PR policy + grant team/user access
+  enable-collaborator-issues.sh  Superseded by grant-repo-access.sh; kept for reference
+  triage-issues.sh             Claude-assisted issue labeling and duplicate detection
+  review-prs.sh                Claude-assisted PR review comments
 templates/         Templates used by scripts
   LICENSE-MIT        MIT license template with {{YEAR}} placeholder
 docs/              Operational documentation
   repo-conventions.md   Standards for all kaappi repos
   ci-architecture.md    How the reusable CI workflow works
   release-process.md    Release workflow for core and ecosystem
-labels.json        Standard label definitions for all repos
-repos.json         Inventory of org repos and their categories
+labels.json        Standard label definitions for all repos (used by triage-issues.sh)
+repos.json         Inventory of org repos and their categories (used by triage-issues.sh, review-prs.sh)
 ```
 
 ## Running scripts
 
-Scripts require the [Kaappi](https://github.com/kaappi/kaappi) interpreter with
-[kaappi-cli](https://github.com/kaappi/kaappi-cli) installed via thottam.
+Scheme scripts require the [Kaappi](https://github.com/kaappi/kaappi) interpreter with
+[kaappi-cli](https://github.com/kaappi/kaappi-cli) installed via thottam. Bash
+scripts require the [`gh` CLI](https://cli.github.com/), authenticated with an
+account that has org admin rights (needed to update repo-level issue/PR
+creation policy).
 
 ```bash
 # Generate LICENSE files for repos that don't have one
@@ -30,7 +39,17 @@ kaappi scripts/add-license.scm ../kaappi-cli ../kaappi-json ../kaappi-net
 
 # Audit repos for required files
 kaappi scripts/audit-repos.scm
+
+# Restrict issue/PR creation to collaborators and grant a team write access
+./scripts/grant-repo-access.sh kaappi-json --team contributors
+
+# Claude-assisted issue triage / PR review across all repos in repos.json
+./scripts/triage-issues.sh
+./scripts/review-prs.sh
 ```
+
+See [docs/repo-conventions.md](docs/repo-conventions.md) for the org's
+access-control policy.
 
 ## Reusable CI workflow
 

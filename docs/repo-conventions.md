@@ -27,6 +27,22 @@ Standards that all repositories in the kaappi org should follow.
 - **Zig** (core): enforced by `zig fmt`, checked in CI
 - **Scheme** (libraries): 2-space indentation, standard R7RS style
 
+## Access control
+
+All public repos in the org (as of 2026-08-03):
+
+- Issue and PR creation is restricted to collaborators
+  (`issueCreationPolicy` / `pullRequestCreationPolicy` = `COLLABORATORS_ONLY`,
+  the permanent GraphQL repo setting — not the temporary REST
+  `interaction-limits` API).
+- The `contributors` team has Write (`push`) access on every repo, which is
+  the minimum permission level `COLLABORATORS_ONLY` honors (Triage is not
+  enough).
+
+Use `scripts/grant-repo-access.sh <repo> --team <slug> [--user <login>]` to
+apply both to a repo (new or existing) — it's idempotent, safe to re-run, and
+what keeps this policy uniform across the org.
+
 ## CI
 
 Ecosystem libraries use the reusable workflow from `kaappi/.github`. See
