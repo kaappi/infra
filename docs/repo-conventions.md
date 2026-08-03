@@ -56,6 +56,12 @@ Use `scripts/grant-repo-access.sh <repo> --team <slug> [--user <login>]` to
 apply both to a repo (new or existing) — it's idempotent, safe to re-run, and
 what keeps this policy uniform across the org.
 
+**Exception: `kaappi/community`.** It intentionally leaves issue and PR
+creation open to everyone (`ALL`, not `COLLABORATORS_ONLY`) — it's the entry
+point for governance, Code of Conduct, and security-policy discussions, which
+shouldn't require org membership. Don't run `grant-repo-access.sh` against it
+expecting to apply the standard policy.
+
 ## CI
 
 Ecosystem libraries use the reusable workflow from `kaappi/.github`. See
