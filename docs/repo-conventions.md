@@ -69,6 +69,15 @@ point for governance, Code of Conduct, and security-policy discussions, which
 shouldn't require org membership. Don't run `grant-repo-access.sh` against it
 expecting to apply the standard policy.
 
+### Teams
+
+- `contributors` — Write access on every repo; the one `grant-repo-access.sh`
+  manages.
+- `release`, `admin` — created for future use, currently empty with no repo
+  permissions granted. Not yet wired into any process; see
+  [kaappi/community's GOVERNANCE.md](https://github.com/kaappi/community/blob/main/GOVERNANCE.md)
+  before assuming a role for them.
+
 ## CI
 
 Ecosystem libraries use the reusable workflow from `kaappi/.github`. See

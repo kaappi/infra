@@ -12,7 +12,10 @@ installed as `kaappi-dev` — its `skills/`, `agents/`, and `hooks/` are availab
 to Claude Code sessions in every repo, not just this one.
 
 This directory sits inside the multi-repo `kaappi/` workspace (see the parent
-`../CLAUDE.md`) but is its own independent git repo.
+`../CLAUDE.md`) but is its own independent git repo. It's public, unlike the
+governance/CoC/security *content* it manages — that canonical content lives
+in [kaappi/community](https://github.com/kaappi/community); this repo only
+holds the automation that seeds and enforces it across other repos.
 
 ## Running the scripts
 
@@ -24,11 +27,19 @@ org admin rights (required for repo-level issue/PR policy changes).
 # Generate LICENSE files for repos that don't have one
 kaappi scripts/add-license.scm ../kaappi-cli ../kaappi-json ../kaappi-net
 
+# Seed CODE_OF_CONDUCT.md/SECURITY.md from kaappi/community, and DCO2 config
+kaappi scripts/add-community-files.scm ../kaappi-cli ../kaappi-json
+kaappi scripts/add-dco-config.scm ../kaappi-cli ../kaappi-json
+
 # Audit repos for required files (per repos.json "expect" lists)
 kaappi scripts/audit-repos.scm [base-dir]   # base-dir defaults to ..
 
 # Apply collaborators-only issue/PR policy + grant a team/user write access
 ./scripts/grant-repo-access.sh <repo> [--team <slug>]... [--user <login>]... [--permission <level>]
+
+# Require the DCO status check on a repo's branch protection (creates
+# minimal protection if none exists; merges into existing checks otherwise)
+./scripts/require-dco-check.sh <repo> ...   # no args = all repos.json repos
 
 # Claude-assisted issue triage / PR review across repos.json (or specific repos)
 ./scripts/triage-issues.sh [repo ...]
@@ -49,6 +60,28 @@ safe to run any time.
 - **Bash + `gh`** (`scripts/*.sh`) — GitHub API operations (repo settings,
   team/collaborator permissions, issue/PR automation) that need `gh api graphql`
   or REST calls Scheme has no client for.
+
+### `(command-line)` is R7RS-standard here, not two-element
+
+Every Scheme script's `main` reads its own path via `(car (command-line))`
+and the real args via `(cdr (command-line))`. This kaappi build's
+`(command-line)` returns `(script-path arg1 arg2 ...)` — the standard R7RS
+shape, no interpreter-path prefix. `add-license.scm` and `audit-repos.scm`
+originally assumed a two-element prefix (`cadr`/`cddr`) and were silently
+broken until this was caught by testing `add-community-files.scm` against a
+real invocation. If you add a new Scheme script, verify against a real `kaappi
+script.scm arg1 arg2` invocation, not just `bash -n`-style inspection.
+
+### Seeding scripts never overwrite (add-license.scm, add-community-files.scm, add-dco-config.scm)
+
+All three follow the same shape: read a template (from `templates/` in this
+repo, or from a sibling `kaappi/community` checkout for
+`add-community-files.scm`), then for each repo-path arg, write the file only
+if it doesn't already exist — skip and report otherwise. This is what makes
+them safe to run against every repo in the org without a whitelist: a repo
+that has customized the file (e.g. `kaappi/kaappi`'s `SECURITY.md` with its
+sandbox/FFI threat model) is left untouched, and re-running the script after
+partial completion is a no-op for repos already done.
 
 ### The `claude -p` pattern (triage-issues.sh, review-prs.sh)
 
@@ -104,13 +137,42 @@ hardcoded loops, per the "Adding a new ecosystem repo" checklist in
   `git push --force`, `git tag -d`, `git reset --hard`) org-wide, independent
   of whatever guard the target repo's own `.claude/hooks/` might have.
 
+### DCO enforcement: config seeding vs. branch protection are separate steps
+
+Two independent things make the DCO (Developer Certificate of Origin) check
+actually work, and both are per-repo:
+
+1. **`add-dco-config.scm`** seeds `.github/dco.yml`, which only configures
+   optional [DCO2](https://github.com/cncf/dco2) app behavior (remediation
+   commits, the override button). The check itself works without this file —
+   it's not required for the app to run, just to customize it.
+2. **`require-dco-check.sh`** makes the check *required* via branch
+   protection. It creates minimal protection (`required_status_checks:
+   {contexts: ["DCO"]}`, `enforce_admins: false`, nothing else) on a repo
+   that has none, or merges `"DCO"` into an existing repo's required-checks
+   list via the `required_status_checks` sub-resource specifically — that
+   endpoint updates only that field, so `kaappi/kaappi`'s existing CI-matrix
+   required checks and review settings are untouched. `enforce_admins: false`
+   means an org admin can still push directly past the check (GitHub logs it
+   as "Bypassed rule violations" but doesn't block it) — that's the
+   deliberately minimal scope chosen for the initial rollout, not an
+   oversight.
+
+The DCO2 GitHub App itself has to be installed org-wide via
+<https://github.com/apps/dco-2> — that step needs interactive org-owner
+consent in a browser and can't be scripted.
+
 ## Key docs
 
 - `docs/repo-conventions.md` — required files per repo category, branch/commit
-  conventions, and the access-control policy (`COLLABORATORS_ONLY` issue/PR
-  creation + `contributors` team at Write access — Triage is *not* sufficient
-  for GitHub to honor that policy, which is why `grant-repo-access.sh` defaults
-  `--permission` to `push`).
+  conventions (including the DCO sign-off requirement), the access-control
+  policy (`COLLABORATORS_ONLY` issue/PR creation + `contributors` team at
+  Write access — Triage is *not* sufficient for GitHub to honor that policy,
+  which is why `grant-repo-access.sh` defaults `--permission` to `push`; plus
+  the documented exception for `kaappi/community`, which is intentionally
+  open to everyone), the community-files seeding pattern, and the org's
+  teams (`contributors`, plus `release`/`admin` — created for future use,
+  currently unused).
 - `docs/ci-architecture.md` — per-repo CI templates (pure Scheme vs. native FFI
   matrix), the nightly cross-ecosystem test workflow (lives in `kaappi/.github`,
   not here), and the steps for wiring up a new repo's CI.

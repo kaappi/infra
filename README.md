@@ -15,6 +15,7 @@ scripts/           Org maintenance and automation scripts
   audit-repos.scm              Check repos for required files (Scheme)
   grant-repo-access.sh         Set collaborators-only issue/PR policy + grant team/user access
   enable-collaborator-issues.sh  Superseded by grant-repo-access.sh; kept for reference
+  require-dco-check.sh         Require the DCO status check on a repo's branch protection
   triage-issues.sh             Claude-assisted issue labeling and duplicate detection
   review-prs.sh                Claude-assisted PR review comments
 templates/         Templates used by scripts
@@ -46,6 +47,10 @@ kaappi scripts/audit-repos.scm
 # Restrict issue/PR creation to collaborators and grant a team write access
 ./scripts/grant-repo-access.sh kaappi-json --team contributors
 
+# Seed DCO2 app config and require its check on branch protection
+kaappi scripts/add-dco-config.scm ../kaappi-json
+./scripts/require-dco-check.sh kaappi-json
+
 # Claude-assisted issue triage / PR review across all repos in repos.json
 ./scripts/triage-issues.sh
 ./scripts/review-prs.sh
@@ -63,8 +68,11 @@ for usage.
 
 ## Related
 
+- [kaappi/community](https://github.com/kaappi/community) — governance,
+  maintainers, and the canonical `CODE_OF_CONDUCT.md`/`SECURITY.md` this repo
+  seeds into others
 - [kaappi/.github](https://github.com/kaappi/.github) — org profile, reusable
-  workflows, community health files
+  workflows, community health file defaults
 - [kaappi/ci-images](https://github.com/kaappi/ci-images) — Docker builder images
 
 ## License
