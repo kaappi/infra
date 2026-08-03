@@ -21,6 +21,13 @@ Standards that all repositories in the kaappi org should follow.
 
 - Short imperative subject line (e.g. "Add vector-sort procedure")
 - Optional body explaining _why_, not _what_
+- Every commit must carry a `Signed-off-by` trailer (DCO — see
+  [developercertificate.org](https://developercertificate.org/)), added with
+  `git commit -s`. Enforced by the [DCO2](https://github.com/cncf/dco2)
+  GitHub App, installed org-wide. `templates/dco.yml` is the app's config
+  template; seed a repo that doesn't have its own copy with
+  `scripts/add-dco-config.scm <repo-path> ...` (never overwrites an existing
+  `.github/dco.yml`).
 
 ## Code style
 

@@ -11,6 +11,7 @@ against the `gh` CLI.
 scripts/           Org maintenance and automation scripts
   add-license.scm             Generate MIT LICENSE files across repos (Scheme)
   add-community-files.scm     Seed CODE_OF_CONDUCT.md/SECURITY.md from kaappi/community (Scheme)
+  add-dco-config.scm           Seed .github/dco.yml (DCO2 app config) across repos (Scheme)
   audit-repos.scm              Check repos for required files (Scheme)
   grant-repo-access.sh         Set collaborators-only issue/PR policy + grant team/user access
   enable-collaborator-issues.sh  Superseded by grant-repo-access.sh; kept for reference
@@ -18,6 +19,7 @@ scripts/           Org maintenance and automation scripts
   review-prs.sh                Claude-assisted PR review comments
 templates/         Templates used by scripts
   LICENSE-MIT        MIT license template with {{YEAR}} placeholder
+  dco.yml            DCO2 GitHub App config template
 docs/              Operational documentation
   repo-conventions.md   Standards for all kaappi repos
   ci-architecture.md    How the reusable CI workflow works
