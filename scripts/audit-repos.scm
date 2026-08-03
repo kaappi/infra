@@ -34,9 +34,9 @@
       (else (loop (- i 1))))))
 
 (define (main)
-  (let* ((args (cddr (command-line)))
+  (let* ((args (cdr (command-line)))
          (base-dir (if (null? args) ".." (car args)))
-         (script-dir (dirname (cadr (command-line))))
+         (script-dir (dirname (car (command-line))))
          (config-path (path-join (path-join script-dir "..") "repos.json"))
          (config (json-read-string (read-file-text config-path)))
          (pass 0)

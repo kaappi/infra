@@ -24,5 +24,6 @@
   {"name": "ci-images",       "category": "infra",     "expect": ["LICENSE", "README.md", ".github/workflows"]},
   {"name": "kaappi.github.io","category": "docs",      "expect": ["LICENSE", "README.md", ".github/workflows"]},
   {"name": ".github",         "category": "meta",      "expect": ["profile/README.md"]},
-  {"name": "infra",           "category": "meta",      "expect": ["LICENSE", "README.md"]}
+  {"name": "infra",           "category": "meta",      "expect": ["LICENSE", "README.md"]},
+  {"name": "community",       "category": "meta",      "expect": ["LICENSE", "README.md", "GOVERNANCE.md", "MAINTAINERS.md", "CODE_OF_CONDUCT.md", "SECURITY.md"]}
 ]

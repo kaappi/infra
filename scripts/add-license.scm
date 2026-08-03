@@ -56,13 +56,13 @@
       (else (loop (- i 1))))))
 
 (define (main)
-  (let ((args (cddr (command-line))))
+  (let ((args (cdr (command-line))))
     (when (null? args)
       (display "Usage: kaappi add-license.scm <repo-path> ...\n")
       (display "Generates MIT LICENSE files from template.\n")
       (exit 1))
 
-    (let* ((script-dir (dirname (cadr (command-line))))
+    (let* ((script-dir (dirname (car (command-line))))
            (template-path (path-join
                            (path-join script-dir "..")
                            "templates/LICENSE-MIT"))
