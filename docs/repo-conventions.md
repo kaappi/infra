@@ -63,6 +63,11 @@ All public repos in the org (as of 2026-09-10):
   another collaborator. `enforce_admins` stays off: GitHub refuses
   self-approval, so the sole maintainer merges their own PRs through the
   admin bypass.
+- **Every CI job is a required status check**, alongside DCO, so a PR
+  cannot merge red. The contexts come from each repo's most recent
+  pull_request run (`scripts/require-ci-checks.sh`), never from `main`: a
+  push-only job such as a deploy would otherwise sit at "Expected" forever
+  and block every PR. Re-run the script after adding a job to a repo's CI.
 - **CI on fork PRs waits for maintainer approval** for every outside
   contributor, not only first-timers. The default `GITHUB_TOKEN` is
   read-only and cannot approve PRs.
@@ -70,9 +75,11 @@ All public repos in the org (as of 2026-09-10):
   tells reporters to use it), the wiki is off, and head branches are
   deleted on merge.
 
-`scripts/open-repo-access.sh <repo> ...` applies all of the above to a repo
-(new or existing) and is idempotent; `kaappi scripts/add-codeowners.scm
-<repo-path>` seeds the CODEOWNERS file the review rule depends on. The
+`scripts/open-repo-access.sh <repo> ...` applies all of the above except
+the CI contexts to a repo (new or existing) and is idempotent;
+`scripts/require-ci-checks.sh <repo>` adds the CI contexts; `kaappi
+scripts/add-codeowners.scm <repo-path>` seeds the CODEOWNERS file the
+review rule depends on. The
 previous policy (`COLLABORATORS_ONLY`, in force 2026-08-03 to 2026-09-10)
 is what `scripts/grant-repo-access.sh` sets; it is kept for re-closing a
 repo, not for routine use.

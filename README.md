@@ -17,6 +17,7 @@ scripts/           Org maintenance and automation scripts
   add-codeowners.scm           Seed .github/CODEOWNERS (the file the review rule depends on) (Scheme)
   grant-repo-access.sh         Re-close a repo to collaborators only (the pre-2026-09 policy)
   require-dco-check.sh         Require the DCO status check on a repo's branch protection
+  require-ci-checks.sh         Require a repo's CI jobs (from its last PR run) on main
   triage-issues.sh             Claude-assisted issue labeling and duplicate detection
   review-prs.sh                Claude-assisted PR review comments
 templates/         Templates used by scripts
@@ -50,6 +51,7 @@ kaappi scripts/audit-repos.scm
 # security guards (idempotent); seed the CODEOWNERS file it depends on
 ./scripts/open-repo-access.sh kaappi-json
 kaappi scripts/add-codeowners.scm ../kaappi-json
+./scripts/require-ci-checks.sh kaappi-json     # contexts from its last PR run
 
 # Seed DCO2 app config and require its check on branch protection
 kaappi scripts/add-dco-config.scm ../kaappi-json
