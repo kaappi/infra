@@ -23,7 +23,9 @@
   {"name": "vscode-kaappi",   "category": "tooling",   "expect": ["LICENSE", "README.md", ".github/workflows"]},
   {"name": "ci-images",       "category": "infra",     "expect": ["LICENSE", "README.md", ".github/workflows"]},
   {"name": "kaappi.github.io","category": "docs",      "expect": ["LICENSE", "README.md", ".github/workflows"]},
+  {"name": "kaappi-book",     "category": "docs",      "expect": ["README.md"]},
   {"name": ".github",         "category": "meta",      "expect": ["profile/README.md"]},
+  {"name": "keps",            "category": "meta",      "expect": ["LICENSE", "README.md", "template.md"]},
   {"name": "infra",           "category": "meta",      "expect": ["LICENSE", "README.md"]},
   {"name": "community",       "category": "meta",      "expect": ["LICENSE", "README.md", "GOVERNANCE.md", "MAINTAINERS.md", "CODE_OF_CONDUCT.md", "SECURITY.md"]}
 ]
