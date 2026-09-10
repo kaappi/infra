@@ -21,11 +21,16 @@
   {"name": "kaappi-web",      "category": "ecosystem", "expect": ["LICENSE", "README.md", "kaappi.pkg", ".github/workflows"]},
   {"name": "kaappi-examples", "category": "ecosystem", "expect": ["LICENSE", "README.md", ".github/workflows"]},
   {"name": "vscode-kaappi",   "category": "tooling",   "expect": ["LICENSE", "README.md", ".github/workflows"]},
+  {"name": "kaappi-studio",   "category": "tooling",   "expect": ["LICENSE", "README.md", ".github/workflows"]},
+  {"name": "chaaya",          "category": "implementation", "expect": ["LICENSE", "README.md", ".github/workflows"]},
+  {"name": "paal",            "category": "implementation", "expect": ["LICENSE", "README.md", ".github/workflows"]},
   {"name": "ci-images",       "category": "infra",     "expect": ["LICENSE", "README.md", ".github/workflows"]},
+  {"name": "github-action-pull-request-benchmark", "category": "infra", "expect": ["LICENSE", "README.md", ".github/workflows"]},
   {"name": "kaappi.github.io","category": "docs",      "expect": ["LICENSE", "README.md", ".github/workflows"]},
   {"name": "kaappi-book",     "category": "docs",      "expect": ["README.md"]},
   {"name": ".github",         "category": "meta",      "expect": ["profile/README.md"]},
   {"name": "keps",            "category": "meta",      "expect": ["LICENSE", "README.md", "template.md"]},
   {"name": "infra",           "category": "meta",      "expect": ["LICENSE", "README.md"]},
+  {"name": ".claude",         "category": "meta",      "expect": ["settings.json", "skills"]},
   {"name": "community",       "category": "meta",      "expect": ["LICENSE", "README.md", "GOVERNANCE.md", "MAINTAINERS.md", "CODE_OF_CONDUCT.md", "SECURITY.md"]}
 ]
