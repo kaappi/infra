@@ -49,30 +49,48 @@ Org-wide governance and the maintainer list also live in
 
 ## Access control
 
-All public repos in the org (as of 2026-08-03):
+All public repos in the org (as of 2026-09-10):
 
-- Issue and PR creation is restricted to collaborators
-  (`issueCreationPolicy` / `pullRequestCreationPolicy` = `COLLABORATORS_ONLY`,
-  the permanent GraphQL repo setting — not the temporary REST
-  `interaction-limits` API).
-- The `contributors` team has Write (`push`) access on every repo, which is
-  the minimum permission level `COLLABORATORS_ONLY` honors (Triage is not
-  enough).
+- **Issue and PR creation is open to everyone** (`issueCreationPolicy` /
+  `pullRequestCreationPolicy` = `ALL`, the permanent GraphQL repo setting —
+  not the temporary REST `interaction-limits` API). No org membership is
+  needed to file an issue or open a PR from a fork.
+- **Merging needs the maintainer.** Branch protection on the default branch
+  requires one approving review and a code-owner review, dismisses stale
+  reviews when new commits are pushed, and requires the last push to be
+  approved by someone other than the pusher. `.github/CODEOWNERS` routes
+  every path to the maintainer, so "one approval" cannot be satisfied by
+  another collaborator. `enforce_admins` stays off: GitHub refuses
+  self-approval, so the sole maintainer merges their own PRs through the
+  admin bypass.
+- **CI on fork PRs waits for maintainer approval** for every outside
+  contributor, not only first-timers. The default `GITHUB_TOKEN` is
+  read-only and cannot approve PRs.
+- **Private vulnerability reporting is on** (the seeded `SECURITY.md`
+  tells reporters to use it), the wiki is off, and head branches are
+  deleted on merge.
 
-Use `scripts/grant-repo-access.sh <repo> --team <slug> [--user <login>]` to
-apply both to a repo (new or existing) — it's idempotent, safe to re-run, and
-what keeps this policy uniform across the org.
+`scripts/open-repo-access.sh <repo> ...` applies all of the above to a repo
+(new or existing) and is idempotent; `kaappi scripts/add-codeowners.scm
+<repo-path>` seeds the CODEOWNERS file the review rule depends on. The
+previous policy (`COLLABORATORS_ONLY`, in force 2026-08-03 to 2026-09-10)
+is what `scripts/grant-repo-access.sh` sets; it is kept for re-closing a
+repo, not for routine use.
 
-**Exception: `kaappi/community`.** It intentionally leaves issue and PR
-creation open to everyone (`ALL`, not `COLLABORATORS_ONLY`) — it's the entry
-point for governance, Code of Conduct, and security-policy discussions, which
-shouldn't require org membership. Don't run `grant-repo-access.sh` against it
-expecting to apply the standard policy.
+Why open: the project has one maintainer and cannot carry every change
+itself. Why the guards: opening the door is safe only when nothing merges
+without that maintainer and no outside account can run the CI matrix
+unattended. The contribution rules that protect review time (tests run
+first, explain the change, disclose AI assistance, one change per PR, a
+KEP before anything large) live in each repo's `CONTRIBUTING.md` and in
+[kaappi/community](https://github.com/kaappi/community).
 
 ### Teams
 
-- `contributors` — Write access on every repo; the one `grant-repo-access.sh`
-  manages.
+- `contributors` — Write access on repos where it was granted under the
+  old policy. Write is no longer needed to contribute, and it lets a member
+  approve reviews, which CODEOWNERS is what neutralizes. Grant it only to
+  someone who is meant to merge.
 - `release`, `admin` — created for future use, currently empty with no repo
   permissions granted. Not yet wired into any process; see
   [kaappi/community's GOVERNANCE.md](https://github.com/kaappi/community/blob/main/GOVERNANCE.md)

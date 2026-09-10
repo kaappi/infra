@@ -13,14 +13,16 @@ scripts/           Org maintenance and automation scripts
   add-community-files.scm     Seed CODE_OF_CONDUCT.md/SECURITY.md from kaappi/community (Scheme)
   add-dco-config.scm           Seed .github/dco.yml (DCO2 app config) across repos (Scheme)
   audit-repos.scm              Check repos for required files (Scheme)
-  grant-repo-access.sh         Set collaborators-only issue/PR policy + grant team/user access
-  enable-collaborator-issues.sh  Superseded by grant-repo-access.sh; kept for reference
+  open-repo-access.sh          Open issue/PR creation to everyone + the review/CI/security guards
+  add-codeowners.scm           Seed .github/CODEOWNERS (the file the review rule depends on) (Scheme)
+  grant-repo-access.sh         Re-close a repo to collaborators only (the pre-2026-09 policy)
   require-dco-check.sh         Require the DCO status check on a repo's branch protection
   triage-issues.sh             Claude-assisted issue labeling and duplicate detection
   review-prs.sh                Claude-assisted PR review comments
 templates/         Templates used by scripts
   LICENSE-MIT        MIT license template with {{YEAR}} placeholder
   dco.yml            DCO2 GitHub App config template
+  CODEOWNERS         CODEOWNERS template routing every path to the maintainer
 docs/              Operational documentation
   repo-conventions.md   Standards for all kaappi repos
   ci-architecture.md    How the reusable CI workflow works
@@ -44,8 +46,10 @@ kaappi scripts/add-license.scm ../kaappi-cli ../kaappi-json ../kaappi-net
 # Audit repos for required files
 kaappi scripts/audit-repos.scm
 
-# Restrict issue/PR creation to collaborators and grant a team write access
-./scripts/grant-repo-access.sh kaappi-json --team contributors
+# Open issue/PR creation to everyone and apply the review, CI, and
+# security guards (idempotent); seed the CODEOWNERS file it depends on
+./scripts/open-repo-access.sh kaappi-json
+kaappi scripts/add-codeowners.scm ../kaappi-json
 
 # Seed DCO2 app config and require its check on branch protection
 kaappi scripts/add-dco-config.scm ../kaappi-json
