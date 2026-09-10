@@ -51,7 +51,7 @@ kaappi scripts/audit-repos.scm
 # security guards (idempotent); seed the CODEOWNERS file it depends on
 ./scripts/open-repo-access.sh kaappi-json
 kaappi scripts/add-codeowners.scm ../kaappi-json
-./scripts/require-ci-checks.sh kaappi-json     # CI contexts derived from its last PR run
+./scripts/require-ci-checks.sh kaappi-json     # contexts from its last PR run
 
 # Seed DCO2 app config and require its check on branch protection
 kaappi scripts/add-dco-config.scm ../kaappi-json
