@@ -39,6 +39,10 @@ kaappi scripts/audit-repos.scm [base-dir]   # base-dir defaults to ..
 ./scripts/open-repo-access.sh <repo> ...   # no args = all repos.json repos
 kaappi scripts/add-codeowners.scm ../kaappi-json
 
+# Require a repo's CI jobs as status checks (contexts derived from its most
+# recent pull_request run, so push-only jobs like a deploy never get required)
+./scripts/require-ci-checks.sh <repo> [--check <context>]...   # no args = all repos
+
 # Re-close a repo to collaborators only (the pre-2026-09 policy; not routine)
 ./scripts/grant-repo-access.sh <repo> [--team <slug>]... [--user <login>]... [--permission <level>]
 
