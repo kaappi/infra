@@ -34,7 +34,12 @@ kaappi scripts/add-dco-config.scm ../kaappi-cli ../kaappi-json
 # Audit repos for required files (per repos.json "expect" lists)
 kaappi scripts/audit-repos.scm [base-dir]   # base-dir defaults to ..
 
-# Apply collaborators-only issue/PR policy + grant a team/user write access
+# Open issue/PR creation to everyone + review/CI/security guards (idempotent),
+# and seed the CODEOWNERS file the code-owner review rule depends on
+./scripts/open-repo-access.sh <repo> ...   # no args = all repos.json repos
+kaappi scripts/add-codeowners.scm ../kaappi-json
+
+# Re-close a repo to collaborators only (the pre-2026-09 policy; not routine)
 ./scripts/grant-repo-access.sh <repo> [--team <slug>]... [--user <login>]... [--permission <level>]
 
 # Require the DCO status check on a repo's branch protection (creates
@@ -166,13 +171,12 @@ consent in a browser and can't be scripted.
 
 - `docs/repo-conventions.md` — required files per repo category, branch/commit
   conventions (including the DCO sign-off requirement), the access-control
-  policy (`COLLABORATORS_ONLY` issue/PR creation + `contributors` team at
-  Write access — Triage is *not* sufficient for GitHub to honor that policy,
-  which is why `grant-repo-access.sh` defaults `--permission` to `push`; plus
-  the documented exception for `kaappi/community`, which is intentionally
-  open to everyone), the community-files seeding pattern, and the org's
-  teams (`contributors`, plus `release`/`admin` — created for future use,
-  currently unused).
+  policy (issue/PR creation open to everyone since 2026-09-10; merging needs
+  the maintainer's review via branch protection + CODEOWNERS; fork CI runs
+  need approval for every outside contributor — `open-repo-access.sh`
+  applies all of it, `grant-repo-access.sh` is the re-close tool), the
+  community-files seeding pattern, and the org's teams (`contributors`,
+  plus `release`/`admin` — created for future use, currently unused).
 - `docs/ci-architecture.md` — per-repo CI templates (pure Scheme vs. native FFI
   matrix), the nightly cross-ecosystem test workflow (lives in `kaappi/.github`,
   not here), and the steps for wiring up a new repo's CI.

@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# RE-CLOSES a repo. Since 2026-09-10 the org policy is the opposite of what
+# this script sets (see open-repo-access.sh and docs/repo-conventions.md):
+# issue and PR creation is open to everyone. Keep this script for the day a
+# repo has to be closed again permanently -- for a temporary brake on spam,
+# GitHub's interaction-limits (Settings > Moderation) is the better tool.
+#
 # Restricts issue and pull request creation on a single repo to collaborators
 # only, then grants Write access to selected teams and/or members so they can
 # actually create issues/PRs under that restriction. Triage-level access is
